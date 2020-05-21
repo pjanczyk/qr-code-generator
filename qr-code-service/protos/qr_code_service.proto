@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_package = "com.piotrjanczyk.qrcodegenerator.proto";
+option java_multiple_files = true;
+
+package qrcodegenerator;
+
+service QrCodeService {
+  rpc CreateQrCode (CreateQrCodeRequest) returns (QrCodeResponse) {
+  }
+}
+
+message CreateQrCodeRequest {
+  string data = 1;
+  int32 version = 2;
+  ErrorCorrection error_correction = 3;
+  int32 box_size = 4;
+  int32 border = 5;
+  string fill_color = 6;
+  string back_color = 7;
+  ImageFormat image_format = 8;
+}
+
+enum ErrorCorrection {
+  LOW = 0;
+  MEDIUM = 1;
+  QUARTILE = 2;
+  HIGH = 3;
+}
+
+enum ImageFormat {
+  PNG = 0;
+  SVG = 1;
+}
+
+message QrCodeResponse {
+  bytes file = 1;
+}
