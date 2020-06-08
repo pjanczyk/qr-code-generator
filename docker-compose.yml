@@ -3,11 +3,13 @@ version: "3.0"
 services:
   qr-code-service:
     build: qr-code-service
+    image: pjanczyk/qr-code-generator_web
     ports:
       - "5000:5000"
   web:
     build: web
+    image: pjanczyk/qr-code-generator_qr-code-service
     ports:
-      - "8000:8000"
+      - "80:80"
     depends_on:
       - qr-code-service

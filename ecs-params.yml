@@ -1,0 +1,9 @@
+version: 1
+task_definition:
+  services:
+    qr-code-service:
+      cpu_shares: 50
+      mem_limit: 250000000 # 250 MB
+    web:
+      cpu_shares: 50
+      mem_limit: 500000000 # 500 MB
