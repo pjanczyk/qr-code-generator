@@ -11,20 +11,40 @@ service QrCodeService {
 }
 
 message CreateQrCodeRequest {
+  /** Data to be encoded in the QR code. */
   string data = 1;
+
+  /**
+   * Integer from 1 to 40 that control the size of the QR Code.
+   * If not provided, it will be determined from the size of `data`.
+   */
   int32 version = 2;
+
   ErrorCorrection error_correction = 3;
+
+  /** Size of each "box" of the QR code, in pixels. */
   int32 box_size = 4;
+
+  /** Empty space around the QR code, in pixels. */
   int32 border = 5;
+
+  /** Foreground color, in #RRGGBB format. */
   string fill_color = 6;
+
+  /** Background color, in #RRGGBB format. */
   string back_color = 7;
+
   ImageFormat image_format = 8;
 }
 
 enum ErrorCorrection {
+  /** 7% redundancy */
   LOW = 0;
+  /** 15% redundancy */
   MEDIUM = 1;
+  /** 25% redundancy */
   QUARTILE = 2;
+  /** 30% redundancy */
   HIGH = 3;
 }
 
@@ -34,5 +54,6 @@ enum ImageFormat {
 }
 
 message QrCodeResponse {
+  /** Content of PNG or SVG file */
   bytes file = 1;
 }
