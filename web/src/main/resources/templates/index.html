@@ -1,58 +1,175 @@
-<!ł html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+  <meta charset="utf-8"/>
   <title>QR Code Generator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+
+  <script src="https://kit.fontawesome.com/0e7d1970cf.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
+
   <style>
-    html, body, h1, button, textarea, input, form {
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body, h1, button, textarea, input, form, hr {
       margin: 0;
       padding: 0;
       font: inherit;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
     html {
       --color-violet: #9B51E0;
+      --color-violet-dark: #8b48c9;
       --color-black: #000;
+      --color-grey: rgba(0, 0, 0, 0.5);
       --color-white: #fff;
-      font-family: 'Roboto', sans-serif;
-      font-size: 24px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 18px;
     }
 
     body {
       background: var(--color-white)
     }
 
-
     *:focus {
       outline: none;
     }
 
     .container {
-      width: 100%;
-      max-width: 560px;
-      margin-left: auto;
-      margin-right: auto;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
 
     .title {
-      font-size: 40px;
-      font-weight: bold;
-      margin-top: 80px;
-      margin-bottom: 30px;
+      margin-top: 70px;
+      margin-bottom: 40px;
     }
 
-    .textarea {
-      border: 3px solid var(--color-black);
-      padding: 22px;
-      background: var(--color-white);
-      min-height: 200px;
+    .title > h1 {
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    .title > hr {
+      display: block;
+      border: none;
       width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--color-violet);
+    }
+
+    .input {
+      position: relative;
+    }
+
+    .input > input {
+      display: block;
+      border: 2px solid var(--color-black);
+      border-radius: 4px;
+      background: var(--color-white);
+      width: 100%;
+      height: 48px;
+    }
+
+    .input > input:focus {
+      border-width: 3px;
+    }
+
+    .input > .input__suffix {
+      display: flex;
+      z-index: 1;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      align-items: center;
+      color: var(--color-grey);
+      margin-right: 15px;
+      content: attr(data-suffix);
+      pointer-events: none;
+    }
+
+    .text-input > input {
+      padding: 11px 15px;
+    }
+
+    .text-input > input:focus {
+      padding: 10px 14px;
+    }
+
+    .color-input > input {
+      padding: 0;
+      -webkit-appearance: none;
+    }
+
+    .color-input > input::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .color-input > input::-webkit-color-swatch {
+      border: none;
+    }
+
+    .multiline-text-input {
+      display: block;
+      width: 100%;
+      border: 2px solid var(--color-black);
+      border-radius: 4px;
+      padding: 21px 27px;
+      background: var(--color-white);
+      height: 165px;
+      resize: none;
+    }
+
+    .multiline-text-input:focus {
+      border-width: 3px;
+      padding: 20px 26px;
+    }
+
+    .radio-input {
+      display: flex;
+      border: 2px solid var(--color-black);
+      border-radius: 4px;
+      background: var(--color-white);
+      height: 48px;
+    }
+
+    .radio-input > input {
+      display: none;
+    }
+
+    .radio-input > label {
+      flex: 1 1 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .radio-input > label ~ label {
+      border-left: 2px solid var(--color-black);
+    }
+
+    .radio-input > input:checked + label {
+      background: var(--color-violet);
+      color: var(--color-white);
+      font-weight: bold;
+    }
+
+    .field > label {
+      display: block;
+      font-size: 18px;
+      font-weight: 300;
+      margin-bottom: 4px;
+    }
+
+    .field + .field {
+      margin-top: 18px;
     }
 
     .button {
@@ -65,77 +182,177 @@
       color: var(--color-white);
       width: 280px;
       height: 48px;
-      font-family: 'Roboto', sans-serif;
-      font-size: 24px;
+      border-radius: 4px;
+      font-size: 22px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    .input {
-      border: 3px solid var(--color-black);
-      padding: 10px 20px;
-      background: var(--color-white);
-      height: 48px;
+    .button:hover {
+      background: var(--color-violet-dark);
     }
 
     .button-generate {
-      margin-top: 32px;
+      margin-top: 24px;
+      width: 100%;
     }
 
-    .result__header {
-      margin-top: 88px;
-      margin-bottom: 30px;
-      font-size: 30px;
-      font-weight: bold;
-    }
-
-    .result__container {
+    .panels {
       display: flex;
+    }
+
+    .panels__left {
+      width: 408px;
+      padding-top: 28px;
+    }
+
+    .panels__right {
+      margin-left: 68px;
+      width: 196px;
     }
 
     .result__image {
       display: block;
-      width: 250px;
-      height: 250px;
+      width: 256px;
+      height: 256px;
+      border: 1px solid var(--color-violet);
+      border-radius: 4px;
+      margin-top: 47px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .result__right {
-      width: 280px;
-      margin-left: 30px;
-    }
-
-    .result__url {
-      width: 100%;
-      padding-right: 0;
-      margin-top: 20px;
-      color: var(--color-black);
+    .result__buttons {
+      display: flex;
+      margin-top: 24px;
     }
 
     .result__download {
       width: 100%;
+    }
+
+    .result__url {
+      margin-left: 16px;
+      width: 100%;
+      padding-right: 0;
+      color: var(--color-black);
+    }
+
+    .result__url__copy {
+      pointer-events: all;
+      color: var(--color-violet);
+      font-size: 24px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1 class="title">QR Code Generator</h1>
-  <form method="get">
-    <textarea class="textarea" name="data" th:text="${data}"></textarea>
-    <button type="submit" class="button button-generate">Generate QR Code</button>
-  </form>
+  <div class="title">
+    <h1>QR Code Generator</h1>
+    <hr/>
+  </div>
 
-  <div th:if="${url}" class="result">
-    <div class="result__header">Your QR code:</div>
-    <div class="result__container">
-      <img class="result__image" th:src="${url}"/>
-      <div class="result__right">
-        <a th:href="${url}" download class="button result__download">Download</a>
-        <input class="input result__url" type="text" disabled th:value="${url}"/>
+  <form class="panels" method="get">
+    <div class="panels__left">
+      <textarea class="multiline-text-input" name="data" placeholder="Enter text"
+                th:text="${definition.data}"></textarea>
+      <button type="submit" class="button button-generate">Generate QR Code</button>
+
+      <div th:if="${url}" class="result">
+        <img class="result__image" th:src="${url}"/>
+        <div class="result__buttons">
+          <a th:href="${url}" download class="button result__download">Download</a>
+          <div class="input text-input result__url">
+            <input id="url-input" type="text" th:value="${url}" readonly value="bbb"/>
+            <div id="url-copy" data-clipboard-target="#url-input" class="input__suffix">
+              <i class="fa fa-copy result__url__copy"></i>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="panels__right">
+      <div class="field">
+        <label>Image format</label>
+        <div class="input radio-input">
+          <input id="image-format-low-input" type="radio" name="imageFormat" value="PNG"
+                 th:checked="${definition.imageFormat} == PNG"/>
+          <label for="image-format-low-input">PNG</label>
+          <input id="image-format-medium-input" type="radio" name="imageFormat" value="SVG"
+                 th:checked="${definition.imageFormat} == SVG"/>
+          <label for="image-format-medium-input">SVG</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Error correction</label>
+        <div class="input radio-input">
+          <input id="error-correction-low-input" type="radio" name="errorCorrection" value="LOW"
+                 th:checked="${definition.errorCorrection} == LOW"/>
+          <label for="error-correction-low-input">7%</label>
+          <input id="error-correction-medium-input" type="radio" name="errorCorrection" value="MEDIUM"
+                 th:checked="${definition.errorCorrection} == MEDIUM"/>
+          <label for="error-correction-medium-input">15%</label>
+          <input id="error-correction-quartile-input" type="radio" name="errorCorrection" value="QUARTILE"
+                 th:checked="${definition.errorCorrection} == QUARTILE"/>
+          <label for="error-correction-quartile-input">25%</label>
+          <input id="error-correction-high-input" type="radio" name="errorCorrection" value="HIGH"
+                 th:checked="${definition.errorCorrection} == HIGH"/>
+          <label for="error-correction-high-input">30%</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="version-input">QR Code version (1–40)</label>
+        <div class="input text-input">
+          <input id="version-input" type="text" name="version" placeholder="auto"
+                 th:value="${definition.version}"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="foreground-color-input">Foreground color</label>
+        <div class="input color-input">
+          <input id="foreground-color-input" type="color" name="foregroundColor"
+                 th:value="${definition.foregroundColor}"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="background-color-input">Background color</label>
+        <div class="input color-input">
+          <input id="background-color-input" type="color" name="backgroundColor"
+                 th:value="${definition.backgroundColor}"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="box-size-input">Box size</label>
+        <div class="input text-input">
+          <input id="box-size-input" type="text" name="boxSize" placeholder="4"
+                 th:value="${definition.boxSize}"/>
+          <div class="input__suffix">px</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="border-size-input">Border size</label>
+        <div class="input text-input">
+          <input id="border-size-input" type="text" name="borderSize" placeholder="10"
+                 th:value="${definition.borderSize}"/>
+          <div class="input__suffix">px</div>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
+
+<script>
+  new ClipboardJS('#url-copy');
+</script>
 
 </body>
 </html>

@@ -3,25 +3,56 @@ from concurrent.futures import ThreadPoolExecutor
 
 import grpc
 import qrcode
+import qrcode.image.svg
+import qrcode.image.pil
 
-import qr_code_service_pb2 as qr_code_pb
-import qr_code_service_pb2_grpc as qr_code_grpc
+from qr_code_service_pb2 import ErrorCorrection, ImageFormat, QrCodeResponse
+from qr_code_service_pb2_grpc import QrCodeServiceServicer, add_QrCodeServiceServicer_to_server
 
 
-class QrCodeService(qr_code_grpc.QrCodeServiceServicer):
+class SvgImageFactory(qrcode.image.svg.SvgPathImage):
+    def __init__(self, fill_color, back_color, *args, **kwargs):
+        super(*args, **kwargs)
+        self.QR_PATH_STYLE = f'fill:{fill_color};fill-opacity:1;fill-rule:nonzero;stroke:none'
+        self.background = back_color
+
+
+class QrCodeService(QrCodeServiceServicer):
     def CreateQrCode(self, request, context):
-        print(request.data)
-        image = qrcode.make(request.data)
-        byte_io = io.BytesIO()
-        image.save(byte_io, format='PNG')
-        byte_array = byte_io.getvalue()
-        return qr_code_pb.QrCodeResponse(file=byte_array)
+        version = request.version if 1 <= request.version <= 40 else None
+
+        error_correction = {
+            ErrorCorrection.LOW: qrcode.constants.ERROR_CORRECT_L,
+            ErrorCorrection.MEDIUM: qrcode.constants.ERROR_CORRECT_M,
+            ErrorCorrection.QUARTILE: qrcode.constants.ERROR_CORRECT_Q,
+            ErrorCorrection.HIGH: qrcode.constants.ERROR_CORRECT_H,
+        }[request.error_correction]
+
+        image_factory = {
+            ImageFormat.PNG: qrcode.image.pil.PilImage,
+            ImageFormat.SVG: SvgImageFactory
+        }[request.image_format]
+
+        qr = qrcode.QRCode(version=version,
+                           error_correction=error_correction,
+                           box_size=request.box_size,
+                           border=request.border,
+                           image_factory=image_factory)
+        qr.add_data(request.data)
+        image = qr.make_image(fill_color=request.fill_color,
+                              back_color=request.back_color)
+
+        bytes_io = io.BytesIO()
+        image.save(bytes_io)
+        byte_array = bytes_io.getvalue()
+
+        return QrCodeResponse(file=byte_array)
 
 
 def serve():
     print("Starting server...")
     server = grpc.server(ThreadPoolExecutor(max_workers=10))
-    qr_code_grpc.add_QrCodeServiceServicer_to_server(QrCodeService(), server)
+    add_QrCodeServiceServicer_to_server(QrCodeService(), server)
     server.add_insecure_port('[::]:5000')
     server.start()
     print("Listening on port 5000")
