@@ -10,6 +10,6 @@ docker push pjanczyk/qr-code-generator_web
 docker push pjanczyk/qr-code-generator_qr-code-service
 
 echo "-> Running containers on ECS..."
-ecs-cli compose up
+ecs-cli compose service up --force-deployment
 
 echo "-> Done"
