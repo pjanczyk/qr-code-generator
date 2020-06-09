@@ -2,7 +2,7 @@
 
 ### Demo
 
-**[qrcode.piotrjanczyk.com](http://qrcode.piotrjanczyk.com/)**
+[qrcode.piotrjanczyk.com](http://qrcode.piotrjanczyk.com/)
 
 <img src="docs/screenshot.png" width="600"/>
 
@@ -22,7 +22,7 @@ Docker Compose configuration is used for deployment on AWS Elastic Container Ser
 
 ### UI Design
 
-**[Figma](https://www.figma.com/file/m0zkjHTBtYOHYB327GsUou/QR_Code_Generator?node-id=0%3A1)**
+[Figma project](https://www.figma.com/file/m0zkjHTBtYOHYB327GsUou/QR_Code_Generator?node-id=0%3A1)
 
 ### Local development
 
