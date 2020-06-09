@@ -271,7 +271,9 @@
       <button type="submit" class="button button-generate">Generate QR Code</button>
 
       <div th:if="${url}" class="result">
-        <img class="result__image" th:src="${url}"/>
+        <a th:href="${url}">
+          <img class="result__image" th:src="${url}"/>
+        </a>
         <div class="result__buttons">
           <a th:href="${url}" download class="button result__download">Download</a>
           <div class="input text-input result__url">
