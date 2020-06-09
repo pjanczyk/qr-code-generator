@@ -4,11 +4,14 @@ services:
   qr-code-service:
     build: qr-code-service
     image: pjanczyk/qr-code-generator_web
+    ports:
+      - "5000:5000"
 
   web:
     build: web
     image: pjanczyk/qr-code-generator_qr-code-service
     ports:
       - "80:80"
-    depends_on:
-      - qr-code-service
+    environment:
+      QR_CODE_GENERATOR_BASE_URL: http://qrcode.piotrjanczyk.com
+      QR_CODE_GENERATOR_QR_CODE_SERVICE_ADDRESS: qrcode.piotrjanczyk.com:5000

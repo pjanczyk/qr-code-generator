@@ -14,10 +14,10 @@ import com.piotrjanczyk.qrcodegenerator.proto.ImageFormat as PbImageFormat
 
 @Component
 class QrCodeServiceClient(
-  private val config: Config
+  config: Config
 ) : Closeable {
   private val channel = ManagedChannelBuilder
-    .forAddress(config.qrCodeService.host, config.qrCodeService.port)
+    .forTarget(config.qrCodeServiceAddress)
     .usePlaintext()
     .executor(Dispatchers.Default.asExecutor())
     .build()
