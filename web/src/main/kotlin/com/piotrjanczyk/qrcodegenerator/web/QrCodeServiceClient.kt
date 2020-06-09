@@ -1,6 +1,7 @@
 package com.piotrjanczyk.qrcodegenerator.web
 
 import com.piotrjanczyk.qrcodegenerator.proto.QrCodeServiceGrpcKt.QrCodeServiceCoroutineStub
+import com.piotrjanczyk.qrcodegenerator.web.ErrorCorrection.*
 import com.piotrjanczyk.qrcodegenerator.web.ImageFormat.PNG
 import com.piotrjanczyk.qrcodegenerator.web.ImageFormat.SVG
 import io.grpc.ManagedChannelBuilder
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 import com.piotrjanczyk.qrcodegenerator.proto.CreateQrCodeRequest as PbCreateQrCodeRequest
+import com.piotrjanczyk.qrcodegenerator.proto.ErrorCorrection as PbErrorCorrection
 import com.piotrjanczyk.qrcodegenerator.proto.ImageFormat as PbImageFormat
 
 @Component
@@ -28,6 +30,12 @@ class QrCodeServiceClient(
     val request = PbCreateQrCodeRequest.newBuilder()
       .setData(definition.data)
       .setVersion(definition.version ?: 0)
+      .setErrorCorrection(when (definition.errorCorrection) {
+        LOW -> PbErrorCorrection.LOW
+        MEDIUM -> PbErrorCorrection.MEDIUM
+        QUARTILE -> PbErrorCorrection.QUARTILE
+        HIGH -> PbErrorCorrection.HIGH
+      })
       .setFillColor(definition.foregroundColor)
       .setBackColor(definition.backgroundColor)
       .setBoxSize(definition.boxSizeOrDefault)
