@@ -9,7 +9,9 @@ echo "-> Pushing images to Docker registry..."
 docker push pjanczyk/qr-code-generator_web
 docker push pjanczyk/qr-code-generator_qr-code-service
 
-echo "-> Running containers on ECS..."
-ecs-cli compose service up --force-deployment
+echo "-> Recreating ECS containers..."
+ecs-cli compose --file docker-compose.production.yml service stop
+sleep 10
+ecs-cli compose --file docker-compose.production.yml service start --force-deployment
 
 echo "-> Done"

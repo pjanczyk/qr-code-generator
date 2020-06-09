@@ -2,7 +2,7 @@
 
 ### Demo
 
-**[qrcodegenerator.piotrjanczyk.com](http://qrcodegenerator.piotrjanczyk.com/)**
+**[qrcode.piotrjanczyk.com](http://qrcode.piotrjanczyk.com/)**
 
 <img src="docs/screenshot.png" width="600"/>
 
@@ -26,7 +26,7 @@ docker-compose up --build
 
 See [`deploy.sh`](deploy.sh) script.
 
-It builds and deploys to [qrcodegenerator.piotrjanczyk.com](http://qrcodegenerator.piotrjanczyk.com/):
+It builds and deploys to [qrcode.piotrjanczyk.com](http://qrcode.piotrjanczyk.com/):
 * Builds Docker images
 * Pushes them to Docker Hub
 * Deploys them to AWS ECS
