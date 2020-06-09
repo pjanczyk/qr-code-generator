@@ -4,12 +4,11 @@
 
 **[qrcodegenerator.piotrjanczyk.com](http://qrcodegenerator.piotrjanczyk.com/)**
 
-![](docs/screenshot.png)
+<img src="docs/screenshot.png" width="600"/>
 
 ### Architecture
 
-![](docs/architecture-diagram.png)
-
+<img src="docs/architecture-diagram.png" width="600"/>
 
 ### UI Design
 
