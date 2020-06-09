@@ -30,8 +30,8 @@ class QrCodeServiceClient(
       .setVersion(definition.version ?: 0)
       .setFillColor(definition.foregroundColor)
       .setBackColor(definition.backgroundColor)
-      .setBoxSize(definition.boxSize)
-      .setBorder(definition.borderSize)
+      .setBoxSize(definition.boxSizeOrDefault)
+      .setBorder(definition.borderOrDefault)
       .setImageFormat(when (definition.imageFormat) {
         PNG -> PbImageFormat.PNG
         SVG -> PbImageFormat.SVG

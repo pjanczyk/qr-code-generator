@@ -10,3 +10,6 @@ services:
     image: pjanczyk/qr-code-generator_qr-code-service
     ports:
       - "80:80"
+    environment:
+      QR_CODE_GENERATOR_BASE_URL: http://localhost
+      QR_CODE_GENERATOR_QR_CODE_SERVICE_ADDRESS: qr-code-service:5000

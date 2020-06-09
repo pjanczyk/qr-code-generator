@@ -3,18 +3,22 @@ from concurrent.futures import ThreadPoolExecutor
 
 import grpc
 import qrcode
-import qrcode.image.svg
 import qrcode.image.pil
+import qrcode.image.svg
 
 from qr_code_service_pb2 import ErrorCorrection, ImageFormat, QrCodeResponse
 from qr_code_service_pb2_grpc import QrCodeServiceServicer, add_QrCodeServiceServicer_to_server
 
 
 class SvgImageFactory(qrcode.image.svg.SvgPathImage):
-    def __init__(self, fill_color, back_color, *args, **kwargs):
-        super(*args, **kwargs)
-        self.QR_PATH_STYLE = f'fill:{fill_color};fill-opacity:1;fill-rule:nonzero;stroke:none'
+    def __init__(self, *args, fill_color, back_color, **kwargs):
         self.background = back_color
+        self.QR_PATH_STYLE = f'fill:{fill_color};fill-opacity:1;fill-rule:nonzero;stroke:none'
+        super().__init__(*args, **kwargs)
+
+    def _svg(self, **kwargs):
+        svg = super()._svg(**kwargs)
+        return svg
 
 
 class QrCodeService(QrCodeServiceServicer):
@@ -61,5 +65,3 @@ def serve():
 
 if __name__ == '__main__':
     serve()
-
-print("BB")

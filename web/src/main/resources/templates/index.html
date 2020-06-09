@@ -279,10 +279,10 @@
         <label>Image format</label>
         <div class="input radio-input">
           <input id="image-format-low-input" type="radio" name="imageFormat" value="PNG"
-                 th:checked="${definition.imageFormat} == PNG"/>
+                 th:checked="${definition.imageFormat == T(com.piotrjanczyk.qrcodegenerator.web.ImageFormat).PNG}"/>
           <label for="image-format-low-input">PNG</label>
           <input id="image-format-medium-input" type="radio" name="imageFormat" value="SVG"
-                 th:checked="${definition.imageFormat} == SVG"/>
+                 th:checked="${definition.imageFormat == T(com.piotrjanczyk.qrcodegenerator.web.ImageFormat).SVG}"/>
           <label for="image-format-medium-input">SVG</label>
         </div>
       </div>
@@ -291,16 +291,16 @@
         <label>Error correction</label>
         <div class="input radio-input">
           <input id="error-correction-low-input" type="radio" name="errorCorrection" value="LOW"
-                 th:checked="${definition.errorCorrection} == LOW"/>
+                 th:checked="${definition.errorCorrection == T(com.piotrjanczyk.qrcodegenerator.web.ErrorCorrection).LOW}"/>
           <label for="error-correction-low-input">7%</label>
           <input id="error-correction-medium-input" type="radio" name="errorCorrection" value="MEDIUM"
-                 th:checked="${definition.errorCorrection} == MEDIUM"/>
+                 th:checked="${definition.errorCorrection == T(com.piotrjanczyk.qrcodegenerator.web.ErrorCorrection).MEDIUM}"/>
           <label for="error-correction-medium-input">15%</label>
           <input id="error-correction-quartile-input" type="radio" name="errorCorrection" value="QUARTILE"
-                 th:checked="${definition.errorCorrection} == QUARTILE"/>
+                 th:checked="${definition.errorCorrection == T(com.piotrjanczyk.qrcodegenerator.web.ErrorCorrection).QUARTILE}"/>
           <label for="error-correction-quartile-input">25%</label>
           <input id="error-correction-high-input" type="radio" name="errorCorrection" value="HIGH"
-                 th:checked="${definition.errorCorrection} == HIGH"/>
+                 th:checked="${definition.errorCorrection == T(com.piotrjanczyk.qrcodegenerator.web.ErrorCorrection).HIGH}"/>
           <label for="error-correction-high-input">30%</label>
         </div>
       </div>
@@ -332,18 +332,17 @@
       <div class="field">
         <label for="box-size-input">Box size</label>
         <div class="input text-input">
-          <input id="box-size-input" type="text" name="boxSize" placeholder="4"
+          <input id="box-size-input" type="text" name="boxSize" placeholder="10"
                  th:value="${definition.boxSize}"/>
           <div class="input__suffix">px</div>
         </div>
       </div>
 
       <div class="field">
-        <label for="border-size-input">Border size</label>
+        <label for="border-input">Border size</label>
         <div class="input text-input">
-          <input id="border-size-input" type="text" name="borderSize" placeholder="10"
-                 th:value="${definition.borderSize}"/>
-          <div class="input__suffix">px</div>
+          <input id="border-input" type="text" name="border" placeholder="4"
+                 th:value="${definition.border}"/>
         </div>
       </div>
     </div>

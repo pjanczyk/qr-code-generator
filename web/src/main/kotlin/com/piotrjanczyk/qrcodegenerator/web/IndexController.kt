@@ -14,21 +14,23 @@ class IndexController(
   fun home(
     @RequestParam(required = false) data: String?,
     @RequestParam(required = false) imageFormat: ImageFormat?,
+    @RequestParam(required = false) errorCorrection: ErrorCorrection?,
     @RequestParam(required = false) version: Int?,
     @RequestParam(required = false) foregroundColor: String?,
     @RequestParam(required = false) backgroundColor: String?,
     @RequestParam(required = false) boxSize: Int?,
-    @RequestParam(required = false) borderSize: Int?,
+    @RequestParam(required = false) border: Int?,
     model: Model
   ): String {
     val definition = QrCodeDefinition.build(
       data = data ?: "",
       imageFormat = imageFormat,
+      errorCorrection = errorCorrection,
       version = version,
       foregroundColor = foregroundColor,
       backgroundColor = backgroundColor,
       boxSize = boxSize,
-      border = borderSize
+      border = border
     )
     model.addAttribute("definition", definition)
     if (definition.data.isNotBlank()) {
@@ -42,7 +44,7 @@ class IndexController(
     url += "?data=${UriUtils.encodeQueryParam(definition.data, Charsets.UTF_8)}"
     url += "&format=${definition.imageFormat}"
     if (definition.hasCustomErrorCorrection) {
-      url += "&ec=${definition.hasCustomErrorCorrection}"
+      url += "&ec=${definition.errorCorrection}"
     }
     if (definition.hasCustomVersion) {
       url += "&version=${definition.version}"
@@ -56,8 +58,8 @@ class IndexController(
     if (definition.hasCustomBoxSize) {
       url += "&box=${definition.boxSize}"
     }
-    if (definition.hasCustomBorderSize) {
-      url += "&border=${definition.borderSize}"
+    if (definition.hasCustomBorder) {
+      url += "&border=${definition.border}"
     }
     return url
   }

@@ -39,7 +39,7 @@ class ImageController(
     val headers = HttpHeaders().apply {
       contentType = when (definition.imageFormat) {
         PNG -> MediaType.IMAGE_PNG
-        SVG -> MediaType("image/svg+xml")
+        SVG -> MediaType("image", "svg+xml")
       }
     }
     return ResponseEntity(bytes, headers, HttpStatus.OK)

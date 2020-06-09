@@ -7,22 +7,25 @@ data class QrCodeDefinition(
   val errorCorrection: ErrorCorrection = DEFAULT_ERROR_CORRECTION,
   val foregroundColor: String = DEFAULT_FOREGROUND_COLOR,
   val backgroundColor: String = DEFAULT_BACKGROUND_COLOR,
-  val boxSize: Int = DEFAULT_BOX_SIZE,
-  val borderSize: Int = DEFAULT_BORDER_SIZE
+  val boxSize: Int? = null,
+  val border: Int? = null
 ) {
   val hasCustomVersion: Boolean get() = version != null
   val hasCustomErrorCorrection: Boolean get() = errorCorrection != DEFAULT_ERROR_CORRECTION
   val hasCustomForegroundColor: Boolean get() = foregroundColor != DEFAULT_FOREGROUND_COLOR
   val hasCustomBackgroundColor: Boolean get() = backgroundColor != DEFAULT_BACKGROUND_COLOR
-  val hasCustomBoxSize: Boolean get() = boxSize != DEFAULT_BOX_SIZE
-  val hasCustomBorderSize: Boolean get() = borderSize != DEFAULT_BORDER_SIZE
+  val hasCustomBoxSize: Boolean get() = boxSize != null
+  val hasCustomBorder: Boolean get() = border != null
+
+  val boxSizeOrDefault: Int get() = boxSize ?: DEFAULT_BOX_SIZE
+  val borderOrDefault: Int get() = border ?: DEFAULT_BORDER
 
   companion object {
     val DEFAULT_ERROR_CORRECTION = ErrorCorrection.MEDIUM
     const val DEFAULT_FOREGROUND_COLOR = "#000000"
     const val DEFAULT_BACKGROUND_COLOR = "#ffffff"
     const val DEFAULT_BOX_SIZE = 10
-    const val DEFAULT_BORDER_SIZE = 4
+    const val DEFAULT_BORDER = 4
 
     fun build(
       data: String,
@@ -41,8 +44,8 @@ data class QrCodeDefinition(
         errorCorrection = errorCorrection ?: DEFAULT_ERROR_CORRECTION,
         foregroundColor = foregroundColor ?: DEFAULT_FOREGROUND_COLOR,
         backgroundColor = backgroundColor ?: DEFAULT_BACKGROUND_COLOR,
-        boxSize = boxSize ?: DEFAULT_BOX_SIZE,
-        borderSize = border ?: DEFAULT_BORDER_SIZE
+        boxSize = boxSize,
+        border = border
       )
   }
 }

@@ -6,6 +6,7 @@ ENV GRADLE_OPTS -Dorg.gradle.daemon=false
 COPY gradle ./gradle
 COPY gradlew build.gradle settings.gradle ./
 RUN ./gradlew build -x check || true
+RUN ./gradlew generateProto || true
 COPY . ./
 RUN ./gradlew build -x check
 

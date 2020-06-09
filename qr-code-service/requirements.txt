@@ -1,4 +1,4 @@
-grpcio
+grpcio ~= 1.23
 grpcio-tools
 qrcode
 pillow
