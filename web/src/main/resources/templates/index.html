@@ -19,6 +19,16 @@
       font: inherit;
     }
 
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
     html {
       --color-violet: #9B51E0;
       --color-violet-dark: #8b48c9;
@@ -308,8 +318,8 @@
       <div class="field">
         <label for="version-input">QR Code version (1–40)</label>
         <div class="input text-input">
-          <input id="version-input" type="text" name="version" placeholder="auto"
-                 th:value="${definition.version}"/>
+          <input id="version-input" type="number" pattern="[0-9]*" min="1" step="1" max="40" name="version"
+                 placeholder="auto" th:value="${definition.version}"/>
         </div>
       </div>
 
@@ -332,7 +342,7 @@
       <div class="field">
         <label for="box-size-input">Box size</label>
         <div class="input text-input">
-          <input id="box-size-input" type="text" name="boxSize" placeholder="10"
+          <input id="box-size-input" type="number" pattern="[0-9]*" min="1" step="1" name="boxSize" placeholder="10"
                  th:value="${definition.boxSize}"/>
           <div class="input__suffix">px</div>
         </div>
@@ -341,7 +351,7 @@
       <div class="field">
         <label for="border-input">Border size</label>
         <div class="input text-input">
-          <input id="border-input" type="text" name="border" placeholder="4"
+          <input id="border-input" type="number" pattern="[0-9]*" min="0" step="1" name="border" placeholder="4"
                  th:value="${definition.border}"/>
         </div>
       </div>
