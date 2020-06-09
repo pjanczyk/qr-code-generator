@@ -10,6 +10,16 @@
 
 <img src="docs/architecture-diagram.png" width="600"/>
 
+### Implementation details
+
+_**qr-code-service**_ is a microservice implemented in Python which uses [qrcode](https://github.com/lincolnloop/python-qrcode) library.
+It provides a gRPC interface for generating QR codes.
+
+_**web**_ is a web application written in Spring and Kotlin. It uses Thymeleaf for server-side rendering.
+
+Both services are dockerized.
+Docker Compose configuration is used for deployment on AWS Elastic Container Service.
+
 ### UI Design
 
 **[Figma](https://www.figma.com/file/m0zkjHTBtYOHYB327GsUou/QR_Code_Generator?node-id=0%3A1)**
